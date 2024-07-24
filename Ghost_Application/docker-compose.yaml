@@ -1,33 +1,36 @@
-version: "3.3"
+version: "3.3"                  # Specifies the version of the Docker Compose file format.
+
 services:
-  mysql:
-    image: mysql:5.7
-    container_name: mysql
+  mysql:                        # Defines the MySQL service.
+    image: mysql:5.7            # Specifies the MySQL image version 5.7.
+    container_name: mysql       # Names the container as 'mysql'.
     networks:
-      - net01
-    restart: always
+      - net01                   # Connects the MySQL container to the 'net01' network.
+    restart: always             # Always restarts the container if it stops.
     volumes:
-      - mysql-volume:/var/lib/mysql
+      - mysql-volume:/var/lib/mysql  # Mounts the volume 'mysql-volume' to store MySQL data persistently.
     environment:
-      MYSQL_ROOT_PASSWORD: Passw0rd
-  ghost:
-    image: ghost:1-alpine
-    container_name: ghost
+      MYSQL_ROOT_PASSWORD: Passw0rd  # Sets the root password for MySQL.
+
+  ghost:                        # Defines the Ghost blogging platform service.
+    image: ghost:1-alpine       # Specifies the Ghost image version 1 based on Alpine Linux.
+    container_name: ghost       # Names the container as 'ghost'.
     networks:
-      - net01
-    restart: always
+      - net01                   # Connects the Ghost container to the 'net01' network.
+    restart: always             # Always restarts the container if it stops.
     volumes:
-      - ghost-volume:/var/lib/ghost
+      - ghost-volume:/var/lib/ghost  # Mounts the volume 'ghost-volume' to store Ghost data persistently.
     ports:
-      - "80:2368"
+      - "80:2368"               # Maps port 80 on the host to port 2368 in the Ghost container.
     environment:
-      database__client: mysql
-      database__connection__host: mysql
-      database__connection__user: root
-      database__connection__password: Passw0rd
-      database__connection__database: ghost
+      database__client: mysql   # Specifies MySQL as the database client.
+      database__connection__host: mysql         # Sets the hostname of the MySQL service.
+      database__connection__user: root          # Sets the username for the MySQL connection.
+      database__connection__password: Passw0rd  # Sets the password for the MySQL connection.
+      database__connection__database: ghost     # Sets the name of the database to use.
+
 networks:
-  net01:
+  net01:                        # Defines the network 'net01'.
 volumes:
-  mysql-volume:
-  ghost-volume:
+  mysql-volume:                 # Defines the volume 'mysql-volume' for persistent MySQL data storage.
+  ghost-volume:                 # Defines the volume 'ghost-volume' for persistent Ghost data storage.
