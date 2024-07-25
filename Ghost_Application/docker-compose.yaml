@@ -16,6 +16,8 @@ services:
     networks:
       - net01                   # Connects the Ghost container to the 'net01' network.
     restart: always             # Always restarts the container if it stops.
+    depends_on:
+      - mysql                   # Specifies that the Ghost service depends on the MySQL service.
     volumes:
       - ghost-volume:/var/lib/ghost  # Mounts the volume 'ghost-volume' to store Ghost data persistently.
     ports:
